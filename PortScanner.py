@@ -25,7 +25,7 @@ for port in ports:
     code = client.connect_ex((ip, port))
 
     if code == 0:
-        print ("{}{} ->Porta Aberta{}".format('\033[1;32m', port, '\033[m'))
+        print ("{}{} -> Porta Aberta{}".format('\033[1;32m', port, '\033[m'))
     else:
         print ("{}{} -> Porta fechada{}".format('\033[1;31m', port, '\033[m'))
 
