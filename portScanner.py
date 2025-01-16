@@ -2,31 +2,37 @@
 Autor: Juan
 * Escaner Básico de Portas *
 Desenvolvido durante o curso da Solyd Treinamentos
-
 '''
 
 import socket
 
-ip = str(input("Digite o IP: "))
+def get_ip():
+    return input("Digite o IP: ")
 
-ports = []
-count = 0
+def get_ports():
+    ports = []
+    num_ports = int(input("Quantas portas você quer escanear? "))
+    for _ in range(num_ports):
+        port = int(input("Digite a porta: "))
+        ports.append(port)
+    return ports
 
-while count < 5: # --------------> Colocar número de portas que queira escanear
-    port = int(input("Digite a porta: "))
-    ports.append(port)
-    count += 1
+def scan_ports(ip, ports):
+    for port in ports:
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.settimeout(0.05)
+        code = client.connect_ex((ip, port))
+        if code == 0:
+            print(f"\033[1;32m{port} -> Porta Aberta\033[m")
+        else:
+            print(f"\033[1;31m{port} -> Porta Fechada\033[m")
 
-print ("-----------------------------")
+def main():
+    ip = get_ip()
+    ports = get_ports()
+    print("-----------------------------")
+    scan_ports(ip, ports)
+    print("\nScan Finalizado")
 
-for port in ports:
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.settimeout(0.05)
-    code = client.connect_ex((ip, port))
-
-    if code == 0:
-        print ("{}{} -> Porta Aberta{}".format('\033[1;32m', port, '\033[m'))
-    else:
-        print ("{}{} -> Porta fechada{}".format('\033[1;31m', port, '\033[m'))
-
-print ("\nScan Finalizado")
+if __name__ == "__main__":
+    main()
